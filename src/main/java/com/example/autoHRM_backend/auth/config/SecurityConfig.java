@@ -63,12 +63,16 @@ public class SecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
 
-        //경로별 인가 작업
+//        //경로별 인가 작업
+//        http
+//                .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/login", "/", "/join").permitAll()
+//                        .requestMatchers("/admin", "/token", "/calendar").hasRole("ADMIN")
+//                        .anyRequest().authenticated());
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll()
-                        .requestMatchers("/admin", "/token").hasRole("ADMIN")
-                        .anyRequest().authenticated());
+                    .anyRequest().permitAll() // 모든 요청을 허용
+                );
 
         //세션 설정 ( stateless -> 이전 상태 기록 막음 )
         http
