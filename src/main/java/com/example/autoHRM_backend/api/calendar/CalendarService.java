@@ -1,7 +1,7 @@
 package com.example.autoHRM_backend.api.calendar;
 
-import com.example.autoHRM_backend.domain.calendar.Holiday;
-import com.example.autoHRM_backend.domain.calendar.HolidayRepository;
+import com.example.autoHRM_backend.domain.calendar.NationalHoliday;
+import com.example.autoHRM_backend.domain.calendar.NationalHolidayRepository;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -32,16 +32,10 @@ public class CalendarService {
     private final static String GOOGLE_KOREA_HOLIDAY_CALENDAR_ID = "l9ijikc83v1ne5s61er6tava4iplm8id@import.calendar.google.com";
     private final static JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    private final HolidayRepository holidayRepository;
+    private final NationalHolidayRepository nationalHolidayRepository;
     private final DateUtil dateUtil;
 
-    /**
-     * Google calendar API를 사용하기 위한 Calendar 서비스를 생성해서 반환하는 함수
-     *
-     * @return
-     * @throws GeneralSecurityException
-     * @throws IOException
-     */
+    // Google calendar API를 사용하기 위한 Calendar 서비스를 생성해서 반환하는 함수
     private Calendar createGoogleCalendarService() throws GeneralSecurityException, IOException {
         NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 
@@ -51,17 +45,10 @@ public class CalendarService {
                 .build();
     }
 
-    /**
-     * 공휴일 데이터를 가져오는 API
-     *
-     * @return
-     * @throws IOException
-     * @throws GeneralSecurityException
-     */
+    // 공휴일 데이터를 가져오는 함수
     public Events findHolidayFromGoogleCalendar() throws IOException, GeneralSecurityException {
         Calendar service = createGoogleCalendarService();
 
-        // 구글 캘린더에서 이벤트들을 생성해서 내보내줌. 즉, holiday를 내보냄
         return service.events().list(GOOGLE_KOREA_HOLIDAY_CALENDAR_ID).execute();
     }
 
@@ -69,13 +56,12 @@ public class CalendarService {
     @Transactional
     public void saveHolidays() throws IOException, GeneralSecurityException {
         Events events = findHolidayFromGoogleCalendar();
-        List<Holiday> holidays = events.getItems().stream().map(event -> new Holiday(
+        List<NationalHoliday> nationalHolidays = events.getItems().stream().map(event -> new NationalHoliday(
                 event.getSummary(),
-                dateUtil.convertEventDateTimeToLocalDateTime(event.getStart()),
-                dateUtil.convertEventDateTimeToLocalDateTime(event.getEnd())
+                dateUtil.convertToLocalDate(event.getStart())
         )).collect(Collectors.toList());
 
-        holidayRepository.saveAll(holidays);
+        nationalHolidayRepository.saveAll(nationalHolidays);
     }
 
 }

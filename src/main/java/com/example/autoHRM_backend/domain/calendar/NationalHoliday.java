@@ -13,20 +13,18 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Holiday {
+public class NationalHoliday {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String holidayName;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private String nationalHolidayName;
+    private LocalDate nationalHolidayDate;
 
-    public Holiday(String summary, LocalDateTime startDate, LocalDateTime endDate) {
-        this.holidayName = summary;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public NationalHoliday(String nationalHolidayName, LocalDate nationalHolidayDate) {
+        this.nationalHolidayName = nationalHolidayName;
+        this.nationalHolidayDate = nationalHolidayDate;
     }
 
 }
