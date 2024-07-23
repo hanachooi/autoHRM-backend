@@ -1,9 +1,6 @@
 package com.example.autoHRM_backend.domain.calendar;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +17,8 @@ public class NationalHoliday {
     private Long id;
 
     private String nationalHolidayName;
+
+    @Temporal(TemporalType.DATE)
     private LocalDate nationalHolidayDate;
 
     public NationalHoliday(String nationalHolidayName, LocalDate nationalHolidayDate) {

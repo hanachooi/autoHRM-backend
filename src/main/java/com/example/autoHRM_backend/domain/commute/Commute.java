@@ -15,7 +15,10 @@ public class Commute {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endTime;
 
     @ManyToOne

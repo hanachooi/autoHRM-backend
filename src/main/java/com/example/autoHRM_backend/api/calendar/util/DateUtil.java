@@ -1,4 +1,4 @@
-package com.example.autoHRM_backend.api.calendar;
+package com.example.autoHRM_backend.api.calendar.util;
 
 import com.google.api.services.calendar.model.EventDateTime;
 import java.time.Instant;
