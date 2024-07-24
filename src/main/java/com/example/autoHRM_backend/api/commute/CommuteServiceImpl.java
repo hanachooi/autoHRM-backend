@@ -1,7 +1,11 @@
 package com.example.autoHRM_backend.api.commute;
 
-import com.example.autoHRM_backend.domain.commute.Commute;
-import com.example.autoHRM_backend.domain.commute.CommuteRepository;
+import com.example.autoHRM_backend.api.calendar.util.DateUtil;
+import com.example.autoHRM_backend.domain.calendar.DayOfWeek;
+import com.example.autoHRM_backend.domain.calendar.ScheduleType;
+import com.example.autoHRM_backend.domain.calendar.WeeklySchedule;
+import com.example.autoHRM_backend.domain.calendar.WeeklyScheduleRepository;
+import com.example.autoHRM_backend.domain.commute.*;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,16 +21,40 @@ public class CommuteServiceImpl implements CommuteService {
 
     private final EmployeeRepository employeeRepository;
     private final CommuteRepository commuteRepository;
+    private final WeeklyScheduleRepository weeklyScheduleRepository;
+    DateUtil dateUtil = new DateUtil();
 
     @Override
     public void checkIn(String email){
 
         Employee employee = employeeRepository.findByEmail(email);
+        LocalDateTime startTime = LocalDateTime.now();
+        ScheduleType type = getType(startTime);
+        Commute commute;
 
-        Commute commute = Commute.builder()
-                .startTime(LocalDateTime.now())
-                .employee(employee)
-                .build();
+        switch (type) {
+            case WORK:
+                commute = WorkCommute.builder()
+                        .startTime(startTime)
+                        .employee(employee)
+                        .build();
+                break;
+            case HOLIDAY:
+                commute = HolidayCommute.builder()
+                        .startTime(startTime)
+                        .employee(employee)
+                        .build();
+                break;
+            case DAYOFF:
+                commute = DayOffCommute.builder()
+                        .startTime(startTime)
+                        .employee(employee)
+                        .build();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown ScheduleType: " + type);
+        }
+
         commuteRepository.save(commute);
     }
 
@@ -38,6 +66,12 @@ public class CommuteServiceImpl implements CommuteService {
         Commute commute = commutes.get(0);
         commute.checkOut();
         commuteRepository.save(commute);
+    }
+
+    public ScheduleType getType(LocalDateTime localDateTime){
+        DayOfWeek dayofweek = DayOfWeek.valueOf(dateUtil.getKoreanDayOfWeek(localDateTime));
+        WeeklySchedule weeklySchedule = weeklyScheduleRepository.findByDayOfWeek(dayofweek);
+        return weeklySchedule.getScheduleType();
     }
 
 }

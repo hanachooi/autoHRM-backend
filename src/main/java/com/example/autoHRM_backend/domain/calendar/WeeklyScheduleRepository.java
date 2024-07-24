@@ -5,4 +5,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WeeklyScheduleRepository extends JpaRepository<WeeklySchedule, Long> {
+
+    WeeklySchedule findByDayOfWeek(DayOfWeek dayOfWeek);
+
 }

@@ -9,23 +9,22 @@ import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Entity
+@DiscriminatorColumn
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Commute {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime startTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime endTime;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @Builder
     protected Commute(LocalDateTime startTime, Employee employee) {
         this.startTime = startTime;
         this.employee = employee;

@@ -1,10 +1,12 @@
 package com.example.autoHRM_backend.api.calendar.util;
 
+import com.example.autoHRM_backend.domain.calendar.ScheduleType;
 import com.google.api.services.calendar.model.EventDateTime;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+
+import java.time.*;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,5 +32,12 @@ public class DateUtil {
         } else {
             throw new IllegalArgumentException("Invalid EventDateTime: Both dateTime and date are null.");
         }
+    }
+
+    /* 요일 변환 메서드 */
+    public String getKoreanDayOfWeek(LocalDateTime dateTime) {
+        DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
+        Locale koreanLocale = Locale.KOREAN;
+        return dayOfWeek.getDisplayName(TextStyle.FULL, koreanLocale);
     }
 }
