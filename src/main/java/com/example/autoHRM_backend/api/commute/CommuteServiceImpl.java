@@ -34,31 +34,7 @@ public class CommuteServiceImpl implements CommuteService {
 //        LocalDateTime startTime = LocalDateTime.now();
         LocalDateTime startTime = LocalDateTime.of(2024, 7, 28, 18, 0);
         ScheduleType type = getType(startTime, employee);
-        Commute commute;
-
-
-        switch (type) {
-            case WORK:
-                commute = WorkCommute.builder()
-                        .startTime(startTime)
-                        .employee(employee)
-                        .build();
-                break;
-            case HOLIDAY:
-                commute = HolidayCommute.builder()
-                        .startTime(startTime)
-                        .employee(employee)
-                        .build();
-                break;
-            case DAYOFF:
-                commute = DayOffCommute.builder()
-                        .startTime(startTime)
-                        .employee(employee)
-                        .build();
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown ScheduleType: " + type);
-        }
+        Commute commute = CommuteFactory.createCommute(type, startTime, employee);
 
         commuteRepository.save(commute);
     }
