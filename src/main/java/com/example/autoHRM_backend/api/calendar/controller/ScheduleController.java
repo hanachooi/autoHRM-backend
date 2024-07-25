@@ -1,6 +1,6 @@
 package com.example.autoHRM_backend.api.calendar.controller;
 
-import com.example.autoHRM_backend.api.calendar.dto.ScheduleDTO;
+import com.example.autoHRM_backend.api.calendar.dto.ScheduleRequestDTO;
 import com.example.autoHRM_backend.api.calendar.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +17,8 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping("/")
-    public ResponseEntity<Void> createSchedule(@RequestBody ScheduleDTO scheduleDTO){
-        scheduleService.createSchedule(scheduleDTO);
+    public ResponseEntity<Void> createSchedule(@RequestBody ScheduleRequestDTO scheduleRequestDTO){
+        scheduleService.createSchedule(scheduleRequestDTO);
         return ResponseEntity.ok().build();
     }
 

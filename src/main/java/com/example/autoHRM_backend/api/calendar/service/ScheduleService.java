@@ -1,6 +1,6 @@
 package com.example.autoHRM_backend.api.calendar.service;
 
-import com.example.autoHRM_backend.api.calendar.dto.ScheduleDTO;
+import com.example.autoHRM_backend.api.calendar.dto.ScheduleRequestDTO;
 import com.example.autoHRM_backend.domain.calendar.DayOfWeek;
 import com.example.autoHRM_backend.domain.calendar.ScheduleType;
 import com.example.autoHRM_backend.domain.calendar.WeeklySchedule;
@@ -19,13 +19,13 @@ public class ScheduleService {
     private final EmployeeRepository employeeRepository;
     private final WeeklyScheduleRepository weeklyScheduleRepository;
 
-    public void createSchedule(ScheduleDTO scheduleDTO){
-        Employee employee = employeeRepository.findByEmail(scheduleDTO.getEmail());
+    public void createSchedule(ScheduleRequestDTO scheduleRequestDTO){
+        Employee employee = employeeRepository.findByEmail(scheduleRequestDTO.getEmail());
 
 
-        for (Map.Entry<DayOfWeek, ScheduleType> entry : scheduleDTO.getSchedule().entrySet()) {
+        for (Map.Entry<DayOfWeek, ScheduleType> entry : scheduleRequestDTO.getSchedule().entrySet()) {
 
-            WeeklySchedule weeklySchedule = scheduleDTO.toEntity(employee, entry.getKey(), entry.getValue());
+            WeeklySchedule weeklySchedule = scheduleRequestDTO.toEntity(employee, entry.getKey(), entry.getValue());
             weeklyScheduleRepository.save(weeklySchedule);
 
         }

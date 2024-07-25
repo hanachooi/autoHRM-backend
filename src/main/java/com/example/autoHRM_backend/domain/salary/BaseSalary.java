@@ -1,11 +1,16 @@
 package com.example.autoHRM_backend.domain.salary;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.example.autoHRM_backend.domain.employee.Employee;
+import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDate;
 
 @Entity
+@Getter
+@RequiredArgsConstructor
 public class BaseSalary {
 
     @Id
@@ -13,5 +18,25 @@ public class BaseSalary {
     private Long id;
 
     private Long baseSalary;
+
+    private Long year;
+
+    private Long month;
+
+    private Long workHour;
+
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+    @Builder
+    protected BaseSalary(Long baseSalary, Long year, Long month, Long workHour, Employee employee) {
+        this.baseSalary = baseSalary;
+        this.year = year;
+        this.month = month;
+        this.workHour = workHour;
+        this.employee = employee;
+    }
+
 
 }
