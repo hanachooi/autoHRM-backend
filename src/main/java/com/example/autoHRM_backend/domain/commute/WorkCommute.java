@@ -16,9 +16,18 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class WorkCommute extends Commute {
 
+    private Long overtime;
+    private Long nighttime;
+
     @Builder
     public WorkCommute(LocalDateTime startTime, Employee employee){
         super(startTime, employee);
+    }
+
+    @Override
+    public void setTime(Long overtime, Long nighttime){
+        this.overtime = overtime;
+        this.nighttime = nighttime;
     }
 
 }
