@@ -2,6 +2,7 @@ package com.example.autoHRM_backend.domain.employee;
 
 import com.example.autoHRM_backend.domain.calendar.WeeklySchedule;
 import com.example.autoHRM_backend.domain.salary.BaseSalary;
+import com.example.autoHRM_backend.domain.salary.Salary;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,4 +32,7 @@ public class Employee {
 
     @OneToOne(mappedBy = "employee")
     private BaseSalary baseSalary;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Salary> salary;
 }
