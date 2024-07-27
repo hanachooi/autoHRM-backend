@@ -23,8 +23,10 @@ public class BaseSalaryServiceImpl implements BaseSalaryService {
     public void createBaseSalary(BaseSalaryRequestDTO baseSalaryRequestDTO) {
         Employee employee = employeeRepository.findByEmail(baseSalaryRequestDTO.getEmail());
 
-        BaseSalary baseSalary = baseSalaryRequestDTO.toEntity(employee, baseSalaryRequestDTO);
+        Long wage = calculateWage(baseSalaryRequestDTO);
+        BaseSalary baseSalary = baseSalaryRequestDTO.toEntity(employee, wage, baseSalaryRequestDTO);
         baseSalaryRepository.save(baseSalary);
+
 
         Salary salary = createSalary(employee, baseSalaryRequestDTO);
         salaryRepository.save(salary);
@@ -37,5 +39,10 @@ public class BaseSalaryServiceImpl implements BaseSalaryService {
                 .month(baseSalaryRequestDTO.getMonth())
                 .salary(baseSalaryRequestDTO.getBaseSalary())
                 .build();
+    }
+
+    public Long calculateWage(BaseSalaryRequestDTO baseSalaryRequestDTO){
+        Long wage = (long)(baseSalaryRequestDTO.getBaseSalary() / (baseSalaryRequestDTO.getWorkHour()*8));
+        return wage;
     }
 }

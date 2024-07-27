@@ -1,5 +1,6 @@
 package com.example.autoHRM_backend.domain.commute;
 
+import com.example.autoHRM_backend.domain.allowance.Allowance;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -29,7 +30,7 @@ public abstract class Commute {
     private Employee employee;
 
     @OneToOne(mappedBy = "commute")
-    private Commute commute;
+    private Allowance allowance;
 
     protected Commute(LocalDateTime startTime, Employee employee) {
         this.startTime = startTime;

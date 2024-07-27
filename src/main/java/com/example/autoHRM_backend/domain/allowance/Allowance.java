@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 @Entity
 @RequiredArgsConstructor
+@DiscriminatorColumn
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Allowance {
 
     @Id

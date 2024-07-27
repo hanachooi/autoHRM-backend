@@ -6,6 +6,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AllowanceService {
 
-    void createNightAllowance(Long nightTime);
+    void createNightAllowance(Commute commute);
 
 }
