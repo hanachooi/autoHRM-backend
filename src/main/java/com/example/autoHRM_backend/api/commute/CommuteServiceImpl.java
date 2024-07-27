@@ -1,5 +1,6 @@
 package com.example.autoHRM_backend.api.commute;
 
+import com.example.autoHRM_backend.api.allowance.service.AllowanceService;
 import com.example.autoHRM_backend.api.calendar.util.DateUtil;
 import com.example.autoHRM_backend.domain.calendar.DayOfWeek;
 import com.example.autoHRM_backend.domain.calendar.ScheduleType;
@@ -26,6 +27,7 @@ public class CommuteServiceImpl implements CommuteService {
     private final CommuteRepository commuteRepository;
     private final WeeklyScheduleRepository weeklyScheduleRepository;
     DateUtil dateUtil = new DateUtil();
+    AllowanceService allowanceService;
 
     @Override
     public void checkIn(String email){
@@ -52,6 +54,8 @@ public class CommuteServiceImpl implements CommuteService {
         Long nightTime = calculateNightTime(commute.getStartTime(), commute.getEndTime());
         commute.setTime(overtime,nightTime);
         commuteRepository.save(commute);
+
+        allowanceService.createNightAllowance(commute.getNightTime());
     }
 
     public ScheduleType getType(LocalDateTime localDateTime, Employee employee){
@@ -86,8 +90,7 @@ public class CommuteServiceImpl implements CommuteService {
 
             start = currentNightEnd;
         }
-
-        return totalNightMinutes;
+        return ((totalNightMinutes + 5) / 10) * 10;
     }
 
     // 연장근무 분 추출
@@ -96,9 +99,10 @@ public class CommuteServiceImpl implements CommuteService {
 
         // 12시간이면 720시간 연장 -> 720 - 450 =
 
+
         if(duration.toMinutes() - 450 > 0){
             // 60분 9시간
-            return duration.toMinutes() - 450;
+            return ((duration.toMinutes() - 450 + 5) / 10) * 10;
         }
         return 0L;
     }

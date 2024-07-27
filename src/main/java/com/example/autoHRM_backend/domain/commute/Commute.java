@@ -17,6 +17,7 @@ public abstract class Commute {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "commute_id")
     private Long id;
 
     private LocalDateTime startTime;
@@ -26,6 +27,9 @@ public abstract class Commute {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    @OneToOne(mappedBy = "commute")
+    private Commute commute;
 
     protected Commute(LocalDateTime startTime, Employee employee) {
         this.startTime = startTime;
@@ -41,4 +45,6 @@ public abstract class Commute {
     }
 
     public abstract void setTime(Long overtime, Long nighttime);
+
+    public abstract Long getNightTime();
 }

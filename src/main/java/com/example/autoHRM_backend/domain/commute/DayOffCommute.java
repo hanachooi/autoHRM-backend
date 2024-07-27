@@ -7,6 +7,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue("DAYOFF")
 @RequiredArgsConstructor
+@Getter
 public class DayOffCommute extends Commute{
 
     private Long overtime;
@@ -29,6 +31,11 @@ public class DayOffCommute extends Commute{
     public void setTime(Long overtime, Long nighttime){
         this.overtime = overtime;
         this.nighttime = nighttime;
+    }
+
+    @Override
+    public Long getNightTime() {
+        return nighttime;
     }
 
 

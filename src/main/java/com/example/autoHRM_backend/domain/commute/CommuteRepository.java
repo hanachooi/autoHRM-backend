@@ -19,4 +19,6 @@ public interface CommuteRepository extends JpaRepository<Commute, Long> {
                                @Param("today") LocalDate today,
                                @Param("yesterday") LocalDate yesterday);
 
+
+
 }
