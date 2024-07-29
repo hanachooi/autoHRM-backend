@@ -24,7 +24,8 @@ public class BaseSalaryServiceImpl implements BaseSalaryService {
         Employee employee = employeeRepository.findByEmail(baseSalaryRequestDTO.getEmail());
 
         Long wage = calculateWage(baseSalaryRequestDTO);
-        BaseSalary baseSalary = baseSalaryRequestDTO.toEntity(employee, wage, baseSalaryRequestDTO);
+        Long minuteWage = calculateMinuteWage(wage);
+        BaseSalary baseSalary = baseSalaryRequestDTO.toEntity(employee, wage, minuteWage, baseSalaryRequestDTO);
         baseSalaryRepository.save(baseSalary);
 
 
@@ -44,5 +45,11 @@ public class BaseSalaryServiceImpl implements BaseSalaryService {
     public Long calculateWage(BaseSalaryRequestDTO baseSalaryRequestDTO){
         Long wage = (long)(baseSalaryRequestDTO.getBaseSalary() / (baseSalaryRequestDTO.getWorkHour()*8));
         return wage;
+    }
+
+    // 10분의 분급
+    public Long calculateMinuteWage(Long wage){
+        Long minuteWage = (long)(wage/6);
+        return minuteWage;
     }
 }

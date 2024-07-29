@@ -26,6 +26,7 @@ public abstract class Commute {
 
     private LocalDateTime endTime;
 
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
@@ -46,7 +47,9 @@ public abstract class Commute {
         this.endTime = LocalDateTime.of(2024, 7, 29, 6, 0);
     }
 
-    public abstract void setTime(Long overtime, Long nighttime);
+    public abstract void setTime(Long overtime, Long nighttime, Long time);
 
     public abstract Long getNightTime();
+
+    public abstract Long getOverTime();
 }

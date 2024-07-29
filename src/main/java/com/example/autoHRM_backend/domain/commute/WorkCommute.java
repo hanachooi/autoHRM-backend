@@ -20,16 +20,17 @@ public class WorkCommute extends Commute {
 
     private Long overtime;
     private Long nighttime;
+    private Long time;
 
     @Builder
     public WorkCommute(LocalDateTime startTime, Employee employee){
         super(startTime, employee);
     }
 
-    @Override
-    public void setTime(Long overtime, Long nighttime){
+    public void setTime(Long overtime, Long nighttime, Long time){
         this.overtime = overtime;
         this.nighttime = nighttime;
+        this.time = time;
     }
 
     @Override
@@ -37,4 +38,8 @@ public class WorkCommute extends Commute {
         return nighttime;
     }
 
+    @Override
+    public Long getOverTime() {
+        return overtime;
+    }
 }

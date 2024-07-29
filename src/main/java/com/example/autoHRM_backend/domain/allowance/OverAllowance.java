@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue("OVERTIME")
-public class OverTimeAllowance extends Allowance {
+public class OverAllowance extends Allowance {
 
     @Builder
-    protected OverTimeAllowance(Commute commute, Long time, Long allowancePay){
+    protected OverAllowance(Commute commute, Long time, Long allowancePay){
         super(commute, time, allowancePay);
     }
 

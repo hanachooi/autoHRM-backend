@@ -3,11 +3,8 @@ package com.example.autoHRM_backend.api.allowance.service;
 import com.example.autoHRM_backend.domain.allowance.Allowance;
 import com.example.autoHRM_backend.domain.allowance.AllowanceRepository;
 import com.example.autoHRM_backend.domain.allowance.NightAllowance;
-import com.example.autoHRM_backend.domain.allowance.OverTimeAllowance;
+import com.example.autoHRM_backend.domain.allowance.OverAllowance;
 import com.example.autoHRM_backend.domain.commute.Commute;
-import com.example.autoHRM_backend.domain.commute.DayOffCommute;
-import com.example.autoHRM_backend.domain.commute.HolidayCommute;
-import com.example.autoHRM_backend.domain.commute.WorkCommute;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import com.example.autoHRM_backend.domain.salary.BaseSalary;
 import com.example.autoHRM_backend.domain.salary.BaseSalaryRepository;
@@ -29,8 +26,9 @@ public class AllowanceServiceImpl implements AllowanceService {
 
         Long time = commute.getNightTime();
         Employee employee = commute.getEmployee();
+        BaseSalary baseSalary = baseSalaryRepository.findByEmployee(employee);
 
-        Long minuteWage = calculateMinuteWage(employee);
+        Long minuteWage = baseSalary.getMinuteWage();
         Long allowancePay = calculateNightAllowance(time, minuteWage);
 
         Allowance allowance = NightAllowance.builder()
@@ -44,34 +42,16 @@ public class AllowanceServiceImpl implements AllowanceService {
 
     @Override
     public void createOverAllowance(Commute commute) {
-        if (commute instanceof WorkCommute) {
-            calculateWorkOverAllowance((WorkCommute) commute);
-        } else if (commute instanceof HolidayCommute) {
-            calculateHolidayOverAllowance((HolidayCommute) commute);
-        } else if (commute instanceof DayOffCommute) {
-            calculateDayOffOverAllowance((DayOffCommute) commute);
-        }
-    }
 
-    private void calculateDayOffOverAllowance(DayOffCommute commute) {
+        Employee employee = commute.getEmployee();
+        BaseSalary baseSalary = baseSalaryRepository.findByEmployee(employee);
+        Long time = commute.getOverTime();
+        Long minuteWage = baseSalary.getMinuteWage();
 
-
-
-    }
-
-    private void calculateHolidayOverAllowance(HolidayCommute commute) {
-
-
-
-    }
-
-    public void calculateWorkOverAllowance(WorkCommute commute) {
-
-        Long minuteWage = calculateMinuteWage(commute.getEmployee());
-        Long allowancePay = calculateOverAllowance(commute.getOvertime(), minuteWage);
-        Allowance allowance = OverTimeAllowance.builder()
+        Long allowancePay = calculateOverAllowance(time, minuteWage);
+        Allowance allowance = OverAllowance.builder()
                 .commute(commute)
-                .time(commute.getOvertime())
+                .time(time)
                 .allowancePay(allowancePay)
                 .build();
         allowanceRepository.save(allowance);
@@ -93,12 +73,4 @@ public class AllowanceServiceImpl implements AllowanceService {
         return allowancePay;
     }
 
-    // 10분의 분급
-    public Long calculateMinuteWage(Employee employee){
-        BaseSalary baseSalary = baseSalaryRepository.findByEmployee(employee);
-        Long wage = baseSalary.getWage();
-        Long minuteWage = (long)(wage/6);
-        System.out.println("AllowanceServiceImpl.calculateMinuteWage" + minuteWage);
-        return minuteWage;
-    }
 }

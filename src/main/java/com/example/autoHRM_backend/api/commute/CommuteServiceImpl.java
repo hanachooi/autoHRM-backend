@@ -52,7 +52,8 @@ public class CommuteServiceImpl implements CommuteService {
 
         Long overtime = calculateOverTime(commute.getStartTime(), commute.getEndTime());
         Long nightTime = calculateNightTime(commute.getStartTime(), commute.getEndTime());
-        commute.setTime(overtime,nightTime);
+        Long time = calculateTime(commute.getStartTime(), commute.getEndTime());
+        commute.setTime(overtime,nightTime, time);
         commuteRepository.save(commute);
 
         allowanceService.createNightAllowance(commute);
@@ -106,6 +107,15 @@ public class CommuteServiceImpl implements CommuteService {
             return ((duration.toMinutes() - 450 + 5) / 10) * 10;
         }
         return 0L;
+    }
+
+    // 근무시간 추출
+    public Long calculateTime(LocalDateTime start, LocalDateTime end) {
+        Duration duration = Duration.between(start, end);
+        if(duration.toMinutes() - 450 > 0){
+            return duration.toMinutes() - 60;
+        }
+        return duration.toMinutes();
     }
 
 }

@@ -20,6 +20,7 @@ public class HolidayCommute extends Commute {
 
     private Long overtime;
     private Long nighttime;
+    private Long time;
 
     @Builder
     protected HolidayCommute(LocalDateTime startTime, Employee employee) {
@@ -28,13 +29,19 @@ public class HolidayCommute extends Commute {
 
 
     @Override
-    public void setTime(Long overtime, Long nighttime){
+    public void setTime(Long overtime, Long nighttime, Long time){
         this.overtime = overtime;
         this.nighttime = nighttime;
+        this.time = time;
     }
 
     @Override
     public Long getNightTime() {
         return nighttime;
+    }
+
+    @Override
+    public Long getOverTime() {
+        return overtime;
     }
 }

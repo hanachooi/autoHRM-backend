@@ -18,13 +18,14 @@ public class BaseSalaryRequestDTO {
     private Long workHour;
 
 
-    public BaseSalary toEntity(Employee employee, Long wage, BaseSalaryRequestDTO baseSalaryRequestDTO){
+    public BaseSalary toEntity(Employee employee, Long wage, Long minuteWage, BaseSalaryRequestDTO baseSalaryRequestDTO){
         return BaseSalary.builder()
                 .baseSalary(baseSalaryRequestDTO.baseSalary)
                 .year(baseSalaryRequestDTO.year)
                 .month(baseSalaryRequestDTO.month)
                 .workHour(baseSalaryRequestDTO.workHour)
                 .employee(employee)
+                .minuteWage(minuteWage)
                 .wage(wage)
                 .build();
     }
