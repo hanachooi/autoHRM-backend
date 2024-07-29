@@ -10,4 +10,6 @@ public interface AllowanceService {
 
     void createOverAllowance(Commute commute);
 
+    void createHolidayAllowance(Commute commute);
+
 }

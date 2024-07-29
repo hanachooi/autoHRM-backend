@@ -1,9 +1,6 @@
 package com.example.autoHRM_backend.api.allowance.service;
 
-import com.example.autoHRM_backend.domain.allowance.Allowance;
-import com.example.autoHRM_backend.domain.allowance.AllowanceRepository;
-import com.example.autoHRM_backend.domain.allowance.NightAllowance;
-import com.example.autoHRM_backend.domain.allowance.OverAllowance;
+import com.example.autoHRM_backend.domain.allowance.*;
 import com.example.autoHRM_backend.domain.commute.Commute;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import com.example.autoHRM_backend.domain.salary.BaseSalary;
@@ -17,6 +14,7 @@ public class AllowanceServiceImpl implements AllowanceService {
 
     private final double nightAddition = 0.5;
     private final double overAddition = 0.5;
+    private final double holidayAddition = 1.5;
     private final BaseSalaryRepository baseSalaryRepository;
     private final AllowanceRepository allowanceRepository;
 
@@ -57,6 +55,22 @@ public class AllowanceServiceImpl implements AllowanceService {
         allowanceRepository.save(allowance);
     }
 
+    @Override
+    public void createHolidayAllowance(Commute commute) {
+        Employee employee = commute.getEmployee();
+        BaseSalary baseSalary = baseSalaryRepository.findByEmployee(employee);
+        Long time = commute.getTime();
+        Long minuteWage = baseSalary.getMinuteWage();
+        Long allowancePay = calculateHolidayAllowance(time, minuteWage);
+
+        Allowance allowance = HolidayAllowance.builder()
+                .commute(commute)
+                .time(time)
+                .allowancePay(allowancePay)
+                .build();
+        allowanceRepository.save(allowance);
+    }
+
     public Long calculateNightAllowance(Long time, Long minuteWage) {
 
         long allowancePay = (long)((time/10)*minuteWage*nightAddition);
@@ -69,6 +83,12 @@ public class AllowanceServiceImpl implements AllowanceService {
     public Long calculateOverAllowance(Long time, Long minuteWage){
         long allowancePay = (long)((time/10)*minuteWage*overAddition);
         System.out.println("AllowanceServiceImpl.calculateOverAllowance" + allowancePay);
+
+        return allowancePay;
+    }
+
+    public Long calculateHolidayAllowance(Long time, Long minuteWage){
+        long allowancePay = (long)((time/10)*minuteWage*holidayAddition);
 
         return allowancePay;
     }

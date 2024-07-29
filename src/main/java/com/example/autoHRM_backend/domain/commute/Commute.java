@@ -52,4 +52,6 @@ public abstract class Commute {
     public abstract Long getNightTime();
 
     public abstract Long getOverTime();
+
+    public abstract Long getTime();
 }

@@ -44,4 +44,9 @@ public class HolidayCommute extends Commute {
     public Long getOverTime() {
         return overtime;
     }
+
+    @Override
+    public Long getTime() {
+        return time;
+    }
 }

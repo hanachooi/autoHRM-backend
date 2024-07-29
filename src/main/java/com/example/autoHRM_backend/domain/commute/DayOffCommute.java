@@ -45,5 +45,10 @@ public class DayOffCommute extends Commute{
         return overtime;
     }
 
+    @Override
+    public Long getTime() {
+        return time;
+    }
+
 
 }
