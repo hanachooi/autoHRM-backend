@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class OverTimeAllowance extends Allowance {
 
     @Builder
-    protected OverTimeAllowance(Commute commute, Long time){
-        super(commute, time);
+    protected OverTimeAllowance(Commute commute, Long time, Long allowancePay){
+        super(commute, time, allowancePay);
     }
 
 }

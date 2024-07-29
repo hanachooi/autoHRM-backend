@@ -21,9 +21,12 @@ public class Allowance {
 
     private Long time;
 
-    protected Allowance(Commute commute, Long time) {
+    private Long allowancePay;
+
+    protected Allowance(Commute commute, Long time, Long allowancePay) {
         this.commute = commute;
         this.time = time;
+        this.allowancePay = allowancePay;
     }
 
 }

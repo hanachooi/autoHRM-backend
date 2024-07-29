@@ -27,7 +27,7 @@ public class CommuteServiceImpl implements CommuteService {
     private final CommuteRepository commuteRepository;
     private final WeeklyScheduleRepository weeklyScheduleRepository;
     DateUtil dateUtil = new DateUtil();
-    AllowanceService allowanceService;
+    private final AllowanceService allowanceService;
 
     @Override
     public void checkIn(String email){
@@ -55,7 +55,7 @@ public class CommuteServiceImpl implements CommuteService {
         commute.setTime(overtime,nightTime);
         commuteRepository.save(commute);
 
-//        allowanceService.createNightAllowance(commute);
+        allowanceService.createNightAllowance(commute);
     }
 
     public ScheduleType getType(LocalDateTime localDateTime, Employee employee){

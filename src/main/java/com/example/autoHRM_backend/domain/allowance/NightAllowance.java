@@ -17,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class NightAllowance extends Allowance {
 
     @Builder
-    protected NightAllowance(Commute commute, Long time){
-        super(commute, time);
+    protected NightAllowance(Commute commute, Long time, Long allowancePay){
+        super(commute, time, allowancePay);
     }
 
 }
