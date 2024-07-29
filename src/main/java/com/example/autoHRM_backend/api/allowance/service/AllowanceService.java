@@ -8,4 +8,6 @@ public interface AllowanceService {
 
     void createNightAllowance(Commute commute);
 
+    void createOverAllowance(Commute commute);
+
 }

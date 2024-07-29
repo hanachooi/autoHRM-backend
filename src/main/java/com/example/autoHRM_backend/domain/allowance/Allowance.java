@@ -15,7 +15,7 @@ public class Allowance {
     @Column(name="allowance_id")
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "commute_id")
     private Commute commute;
 

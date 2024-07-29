@@ -56,6 +56,7 @@ public class CommuteServiceImpl implements CommuteService {
         commuteRepository.save(commute);
 
         allowanceService.createNightAllowance(commute);
+        allowanceService.createOverAllowance(commute);
     }
 
     public ScheduleType getType(LocalDateTime localDateTime, Employee employee){

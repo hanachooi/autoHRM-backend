@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Entity
@@ -29,8 +30,8 @@ public abstract class Commute {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    @OneToOne(mappedBy = "commute")
-    private Allowance allowance;
+    @OneToMany(mappedBy = "commute")
+    private List<Allowance> allowance;
 
     protected Commute(LocalDateTime startTime, Employee employee) {
         this.startTime = startTime;
