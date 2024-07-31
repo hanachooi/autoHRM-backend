@@ -2,11 +2,13 @@ package com.example.autoHRM_backend.domain.allowance;
 
 import com.example.autoHRM_backend.domain.commute.Commute;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Entity
 @RequiredArgsConstructor
 @DiscriminatorColumn
+@Getter
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Allowance {
 

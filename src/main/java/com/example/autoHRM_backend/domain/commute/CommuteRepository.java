@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -19,6 +20,8 @@ public interface CommuteRepository extends JpaRepository<Commute, Long> {
                                @Param("today") LocalDate today,
                                @Param("yesterday") LocalDate yesterday);
 
+    @Query("SELECT c FROM Commute c WHERE c.startTime >= :start AND c.startTime < :end")
+    List<Commute> findCommutesBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
 
 }
