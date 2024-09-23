@@ -1,4 +1,4 @@
-package com.example.autoHRM_backend.global.config;
+package com.example.autoHRM_backend.queryDSL.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

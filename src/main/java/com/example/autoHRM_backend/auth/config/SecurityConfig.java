@@ -69,6 +69,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/login", "/", "/join").permitAll()
 //                        .requestMatchers("/admin", "/token", "/calendar").hasRole("ADMIN")
 //                        .anyRequest().authenticated());
+        // 추후 이거 수정해야함.
         http
                 .authorizeHttpRequests((auth) -> auth
                     .anyRequest().permitAll() // 모든 요청을 허용
