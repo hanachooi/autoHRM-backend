@@ -26,6 +26,7 @@ public abstract class Commute {
 
     private LocalDateTime endTime;
 
+    private Long time;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
@@ -43,8 +44,12 @@ public abstract class Commute {
         if (endTime != null) {
             throw new IllegalArgumentException("이미 퇴근처리가 되었습니다");
         }
-        //this.endTime = LocalDateTime.now();
-        this.endTime = LocalDateTime.of(2024, 7, 29, 6, 0);
+//        this.endTime = LocalDateTime.now();
+        this.endTime = LocalDateTime.of(2024, 9, 20, 13, 0);
+    }
+
+    public void setTime(Long time){
+        this.time = time;
     }
 
     public abstract void setTime(Long overtime, Long nighttime, Long time);
@@ -53,5 +58,4 @@ public abstract class Commute {
 
     public abstract Long getOverTime();
 
-    public abstract Long getTime();
 }

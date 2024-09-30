@@ -21,7 +21,6 @@ public class DayOffCommute extends Commute{
 
     private Long overtime;
     private Long nighttime;
-    private Long time;
 
     @Builder
     protected DayOffCommute(LocalDateTime startTime, Employee employee) {
@@ -32,7 +31,7 @@ public class DayOffCommute extends Commute{
     public void setTime(Long overtime, Long nighttime, Long time){
         this.overtime = overtime;
         this.nighttime = nighttime;
-        this.time = time;
+        super.setTime(time);
     }
 
     @Override
@@ -44,11 +43,5 @@ public class DayOffCommute extends Commute{
     public Long getOverTime() {
         return overtime;
     }
-
-    @Override
-    public Long getTime() {
-        return time;
-    }
-
 
 }

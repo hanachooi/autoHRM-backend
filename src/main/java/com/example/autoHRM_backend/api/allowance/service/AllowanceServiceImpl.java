@@ -23,7 +23,6 @@ public class AllowanceServiceImpl implements AllowanceService {
     private final double holidayAddition = 1.5;
     private final BaseSalaryRepository baseSalaryRepository;
     private final AllowanceRepository allowanceRepository;
-    private final CommuteRepository commuteRepository;
 
 
     @Override
@@ -55,7 +54,7 @@ public class AllowanceServiceImpl implements AllowanceService {
         double overAddition = 0;
         if(commute instanceof WorkCommute) {
             overAddition = 1.5;
-        }else if(commute instanceof HolidayCommute){
+        }else if(commute instanceof HolidayCommute) {
             overAddition = 0.5;
         }
 
@@ -144,6 +143,7 @@ public class AllowanceServiceImpl implements AllowanceService {
 
         return allowancePay;
     }
+
 
     public Long calculateHolidayAllowance(Long time, Long minuteWage){
         long allowancePay = (long)((time/10)*minuteWage*holidayAddition);

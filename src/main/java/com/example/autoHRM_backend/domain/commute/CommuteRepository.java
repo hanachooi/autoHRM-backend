@@ -1,5 +1,7 @@
 package com.example.autoHRM_backend.domain.commute;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,7 +13,6 @@ import java.util.List;
 
 @Repository
 public interface CommuteRepository extends JpaRepository<Commute, Long> {
-
 
     @Query("SELECT c FROM Commute c WHERE c.employee.email = :email " +
             "AND (DATE(c.startTime) = :today OR DATE(c.startTime) = :yesterday) " +

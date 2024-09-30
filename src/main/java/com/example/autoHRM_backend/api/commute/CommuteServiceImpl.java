@@ -34,7 +34,7 @@ public class CommuteServiceImpl implements CommuteService {
 
         Employee employee = employeeRepository.findByEmail(email);
 //        LocalDateTime startTime = LocalDateTime.now();
-        LocalDateTime startTime = LocalDateTime.of(2024, 7, 28, 18, 0);
+        LocalDateTime startTime = LocalDateTime.of(2024, 9, 20, 12, 0);
         ScheduleType type = getType(startTime, employee);
         Commute commute = CommuteFactory.createCommute(type, startTime, employee);
 
@@ -43,9 +43,13 @@ public class CommuteServiceImpl implements CommuteService {
 
     @Override
     public void checkOut(String email) {
-        LocalDate today = LocalDate.of(2024, 7, 28);
+        LocalDate today = LocalDate.of(2024, 9, 20);
+//        LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<Commute> commutes = commuteRepository.findCommutes(email, today, yesterday);
+        if (commutes.isEmpty()) {
+            System.out.println("CommuteServiceImpl.checkOut no commute start");
+        }
         Commute commute = commutes.get(0);
         commute.checkOut();
         commuteRepository.save(commute);
@@ -56,9 +60,22 @@ public class CommuteServiceImpl implements CommuteService {
         commute.setTime(overtime,nightTime, time);
         commuteRepository.save(commute);
 
+        // 모든 케이스 공통 적용
+        if(nightTime > 0 ){
         allowanceService.createNightAllowance(commute);
-        allowanceService.createOverAllowance(commute);
-        allowanceService.createHolidayAllowance(commute);
+        }
+
+        if(commute instanceof WorkCommute){
+            if(overtime > 0){
+            allowanceService.createOverAllowance(commute);
+            }
+        }else if(commute instanceof HolidayCommute){
+            if(overtime > 0){
+                allowanceService.createOverAllowance(commute);
+            }
+            allowanceService.createHolidayAllowance(commute);
+        }
+        // 휴무일 연장 수당은 배치로 구현
     }
 
     public ScheduleType getType(LocalDateTime localDateTime, Employee employee){
