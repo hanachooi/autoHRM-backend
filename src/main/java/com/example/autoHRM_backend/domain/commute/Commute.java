@@ -28,6 +28,8 @@ public abstract class Commute {
 
     private Long time;
 
+    private boolean status;
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
@@ -35,17 +37,19 @@ public abstract class Commute {
     @OneToMany(mappedBy = "commute")
     private List<Allowance> allowance;
 
-    protected Commute(LocalDateTime startTime, Employee employee) {
+    protected Commute(LocalDateTime startTime, Employee employee, boolean status) {
         this.startTime = startTime;
         this.employee = employee;
+        this.status = status;
     }
 
     public void checkOut() {
         if (endTime != null) {
             throw new IllegalArgumentException("이미 퇴근처리가 되었습니다");
         }
-//        this.endTime = LocalDateTime.now();
-        this.endTime = LocalDateTime.of(2024, 9, 20, 13, 0);
+        this.endTime = LocalDateTime.now();
+//        this.endTime = LocalDateTime.of(2024, 9, 20, 13, 0);
+        this.status = false;
     }
 
     public void setTime(Long time){

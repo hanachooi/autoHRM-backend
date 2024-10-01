@@ -22,8 +22,8 @@ public class WorkCommute extends Commute {
     private Long nighttime;
 
     @Builder
-    public WorkCommute(LocalDateTime startTime, Employee employee){
-        super(startTime, employee);
+    protected WorkCommute(LocalDateTime startTime, Employee employee, boolean status) {
+        super(startTime, employee, status);
     }
 
     @Override

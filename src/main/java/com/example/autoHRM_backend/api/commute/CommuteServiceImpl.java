@@ -26,6 +26,7 @@ public class CommuteServiceImpl implements CommuteService {
     private final EmployeeRepository employeeRepository;
     private final CommuteRepository commuteRepository;
     private final WeeklyScheduleRepository weeklyScheduleRepository;
+    private final CommuteQueryRepository commuteQueryRepository;
     DateUtil dateUtil = new DateUtil();
     private final AllowanceService allowanceService;
 
@@ -33,8 +34,8 @@ public class CommuteServiceImpl implements CommuteService {
     public void checkIn(String email){
 
         Employee employee = employeeRepository.findByEmail(email);
-//        LocalDateTime startTime = LocalDateTime.now();
-        LocalDateTime startTime = LocalDateTime.of(2024, 9, 20, 12, 0);
+        LocalDateTime startTime = LocalDateTime.now();
+//        LocalDateTime startTime = LocalDateTime.of(2024, 9, 20, 12, 0);
         ScheduleType type = getType(startTime, employee);
         Commute commute = CommuteFactory.createCommute(type, startTime, employee);
 
@@ -43,8 +44,8 @@ public class CommuteServiceImpl implements CommuteService {
 
     @Override
     public void checkOut(String email) {
-        LocalDate today = LocalDate.of(2024, 9, 20);
-//        LocalDate today = LocalDate.now();
+//        LocalDate today = LocalDate.of(2024, 9, 20);
+        LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<Commute> commutes = commuteRepository.findCommutes(email, today, yesterday);
         if (commutes.isEmpty()) {
@@ -76,6 +77,14 @@ public class CommuteServiceImpl implements CommuteService {
             allowanceService.createHolidayAllowance(commute);
         }
         // 휴무일 연장 수당은 배치로 구현
+    }
+
+    @Override
+    public boolean checkInStatus(String email) {
+
+        Commute commute = commuteQueryRepository.checkInStatus(email);
+        boolean status = commute.isStatus();
+        return status;
     }
 
     public ScheduleType getType(LocalDateTime localDateTime, Employee employee){

@@ -9,4 +9,5 @@ public interface CommuteService {
 
     void checkOut(String email);
 
+    boolean checkInStatus(String email);
 }

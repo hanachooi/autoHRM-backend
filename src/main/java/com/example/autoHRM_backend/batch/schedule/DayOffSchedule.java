@@ -21,7 +21,8 @@ public class DayOffSchedule {
         this.jobRegistry = jobRegistry;
     }
 
-    @Scheduled(cron = "30 * * * * *", zone = "Asia/Seoul")
+    // 매주 월요일 오전 5시
+    @Scheduled(cron = "0 0 5 * * MON", zone = "Asia/Seoul")
     public void runDayOffAllowanceJob() throws Exception {
 
         System.out.println("Scheduler -----------------------------");

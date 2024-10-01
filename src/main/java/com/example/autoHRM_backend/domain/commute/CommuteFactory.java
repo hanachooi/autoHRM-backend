@@ -12,16 +12,19 @@ public class CommuteFactory {
                 return WorkCommute.builder()
                         .startTime(startTime)
                         .employee(employee)
+                        .status(true)
                         .build();
             case HOLIDAY:
                 return HolidayCommute.builder()
                         .startTime(startTime)
                         .employee(employee)
+                        .status(true)
                         .build();
             case DAYOFF:
                 return DayOffCommute.builder()
                         .startTime(startTime)
                         .employee(employee)
+                        .status(true)
                         .build();
             default:
                 throw new IllegalArgumentException("Unknown ScheduleType: " + type);

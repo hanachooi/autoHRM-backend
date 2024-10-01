@@ -23,8 +23,8 @@ public class DayOffCommute extends Commute{
     private Long nighttime;
 
     @Builder
-    protected DayOffCommute(LocalDateTime startTime, Employee employee) {
-        super(startTime, employee);
+    protected DayOffCommute(LocalDateTime startTime, Employee employee, boolean status) {
+        super(startTime, employee, status);
     }
 
     @Override
