@@ -21,8 +21,7 @@ public interface CommuteRepository extends JpaRepository<Commute, Long> {
                                @Param("today") LocalDate today,
                                @Param("yesterday") LocalDate yesterday);
 
-    @Query("SELECT c FROM Commute c WHERE c.startTime >= :start AND c.startTime < :end")
-    List<Commute> findCommutesBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
-
+    @Query("SELECT c FROM Commute c WHERE c.startTime >= :start AND c.startTime < :end AND c.employee.email = :email")
+    List<Commute> findCommutesBetween(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end, @Param("email") String email);
 
 }

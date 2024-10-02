@@ -1,7 +1,9 @@
-package com.example.autoHRM_backend.api.commute;
+package com.example.autoHRM_backend.api.commute.service;
 
 import com.example.autoHRM_backend.api.allowance.service.AllowanceService;
 import com.example.autoHRM_backend.api.calendar.util.DateUtil;
+import com.example.autoHRM_backend.api.commute.dto.CommuteRequestDTO;
+import com.example.autoHRM_backend.api.commute.dto.CommuteResponseDTO;
 import com.example.autoHRM_backend.domain.calendar.DayOfWeek;
 import com.example.autoHRM_backend.domain.calendar.ScheduleType;
 import com.example.autoHRM_backend.domain.calendar.WeeklySchedule;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -78,7 +81,6 @@ public class CommuteServiceImpl implements CommuteService {
         }
         // 휴무일 연장 수당은 배치로 구현
     }
-
     @Override
     public boolean checkInStatus(String email) {
 
@@ -86,6 +88,39 @@ public class CommuteServiceImpl implements CommuteService {
         boolean status = commute.isStatus();
         return status;
     }
+
+    @Override
+    public List<CommuteResponseDTO> findCommute(String employeeLoginId, String filterType, LocalDateTime startDate){
+
+        System.out.println("CommuteServiceImpl.findCommute");
+
+        LocalDateTime endDate = startDate;
+
+        if (filterType.equals("week")) {
+            // 주별 필터 적용 (예: startDate부터 7일간)
+            List<Commute> commutes = commuteRepository.findCommutesBetween(startDate, endDate.plusDays(7), employeeLoginId);
+            List<CommuteResponseDTO> commuteResponseDTOs = new ArrayList<>();
+
+            for(Commute commute : commutes) {
+                commuteResponseDTOs.add(new CommuteResponseDTO(commute));
+            }
+
+            return commuteResponseDTOs;
+
+        } else if (filterType.equals("month")) {
+            // 월별 필터 적용 (예: startDate부터 한 달간)
+            List<Commute> commutes = commuteRepository.findCommutesBetween(startDate, endDate.plusMonths(1), employeeLoginId);
+            List<CommuteResponseDTO> commuteResponseDTOs = new ArrayList<>();
+
+            for(Commute commute : commutes) {
+                commuteResponseDTOs.add(new CommuteResponseDTO(commute));
+            }
+
+            return commuteResponseDTOs;
+        }
+        return new ArrayList<>();
+    }
+
 
     public ScheduleType getType(LocalDateTime localDateTime, Employee employee){
         DayOfWeek dayofweek = DayOfWeek.valueOf(dateUtil.getKoreanDayOfWeek(localDateTime));
