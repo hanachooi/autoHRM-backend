@@ -17,6 +17,7 @@ public class AllowanceQueryRepository{
 
     private final JPAQueryFactory queryFactory;
 
+    /*
     public List<AllowanceResponseDTO> findByEmployee(String email) {
 
         QAllowance qAllowance = QAllowance.allowance;
@@ -34,6 +35,6 @@ public class AllowanceQueryRepository{
         }
         return dtos;
     }
-
+*/
 
 }

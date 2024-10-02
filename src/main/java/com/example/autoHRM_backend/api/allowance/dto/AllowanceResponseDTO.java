@@ -7,11 +7,14 @@ import lombok.Setter;
 @Setter
 public class AllowanceResponseDTO {
 
+    private String type;
+
     private Long time;
 
     private Long allowancePay;
 
-    public AllowanceResponseDTO(Long time, Long allowancePay) {
+    public AllowanceResponseDTO(String type, Long time, Long allowancePay) {
+        this.type = type.replace("Allowance", "");;
         this.time = time;
         this.allowancePay = allowancePay;
     }

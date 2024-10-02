@@ -47,8 +47,8 @@ public abstract class Commute {
         if (endTime != null) {
             throw new IllegalArgumentException("이미 퇴근처리가 되었습니다");
         }
-        this.endTime = LocalDateTime.now();
-//        this.endTime = LocalDateTime.of(2024, 9, 20, 13, 0);
+//        this.endTime = LocalDateTime.now();
+        this.endTime = LocalDateTime.of(2024, 10, 3, 23, 0);
         this.status = false;
     }
 
