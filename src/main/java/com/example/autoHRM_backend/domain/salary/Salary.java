@@ -3,8 +3,12 @@ package com.example.autoHRM_backend.domain.salary;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import jakarta.persistence.*;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
+@NoArgsConstructor
+@Getter
 public class Salary {
 
     @Id
@@ -29,4 +33,7 @@ public class Salary {
         this.employee = employee;
     }
 
+    public void setSalary(Long salary) {
+        this.salary = salary;
+    }
 }
