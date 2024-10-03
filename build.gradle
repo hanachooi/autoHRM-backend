@@ -1,3 +1,9 @@
+buildscript {
+	ext {
+		querydslVersion = '5.0.0'
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.1'
@@ -32,7 +38,28 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.batch:spring-batch-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// jwt
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+	implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
+
+	// google api
+	implementation 'com.google.api-client:google-api-client:2.0.0'
+	implementation 'com.google.apis:google-api-services-calendar:v3-rev20220715-2.0.0'
+
+	// queryDSL
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+	// BATCH 5
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
 }
 
 tasks.named('test') {
