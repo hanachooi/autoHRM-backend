@@ -1,6 +1,7 @@
 package com.example.autoHRM_backend.api.salary.service;
 
 import com.example.autoHRM_backend.api.salary.dto.BaseSalaryRequestDTO;
+import com.example.autoHRM_backend.api.salary.dto.SalaryResponseDTO;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import com.example.autoHRM_backend.domain.salary.BaseSalary;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class BaseSalaryServiceImpl implements BaseSalaryService {
+public class SalaryServiceImpl implements SalaryService {
 
     private final EmployeeRepository employeeRepository;
     private final BaseSalaryRepository baseSalaryRepository;
@@ -31,6 +32,15 @@ public class BaseSalaryServiceImpl implements BaseSalaryService {
 
         Salary salary = createSalary(employee, baseSalaryRequestDTO);
         salaryRepository.save(salary);
+    }
+
+    @Override
+    public SalaryResponseDTO findMySalary(String employeeLoginId) {
+        Employee employee = employeeRepository.findByEmail(employeeLoginId);
+        Salary salary = salaryRepository.findByEmployee(employee);
+        BaseSalary baseSalary = baseSalaryRepository.findByEmployee(employee);
+
+        return new SalaryResponseDTO(baseSalary.getBaseSalary(), salary.getSalary());
     }
 
     public Salary createSalary(Employee employee, BaseSalaryRequestDTO baseSalaryRequestDTO){

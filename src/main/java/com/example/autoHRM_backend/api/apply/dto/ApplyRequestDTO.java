@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class ApplyRectifyRequestDTO {
+public class ApplyRequestDTO {
 
 
     private String rectifyDate;
