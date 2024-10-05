@@ -29,6 +29,8 @@ public class Employee {
 
     private String role;
 
+    private String companyName;
+
     @OneToMany(mappedBy = "employee")
     private List<WeeklySchedule> weeklySchedule;
 

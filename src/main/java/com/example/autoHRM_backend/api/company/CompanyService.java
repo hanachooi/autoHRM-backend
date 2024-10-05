@@ -9,6 +9,7 @@ import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,13 +20,28 @@ public class CompanyService {
     private final DepartmentRepository departmentRepository;
     private final CompanyRepository companyRepository;
 
-    public List<Department> findMyDepartments(String loginEmployeeId) {
+    public List<DepartmentResponseDTO> findMyDepartments(String loginEmployeeId) {
+
+        System.out.println("CompanyService.findMyDepartments");
+        System.out.println(loginEmployeeId);
 
         Employee employee = employeeRepository.findByEmail(loginEmployeeId);
         Company company = companyRepository.findCompanyByEmployeeId(employee.getId());
 
+        System.out.println(company.getCompanyName());
+
+        List<DepartmentResponseDTO> dtos = new ArrayList<>();
+
         List<Department> departments = departmentRepository.findByCompany(company);
-        return departments;
+        for(Department department : departments) {
+            if(department.getDepartmentName().equals("회사")){
+                continue;
+            }
+            DepartmentResponseDTO departmentResponseDTO = new DepartmentResponseDTO(department.getId(), department.getDepartmentName());
+            dtos.add(departmentResponseDTO);
+        }
+
+        return dtos;
     }
 
 }

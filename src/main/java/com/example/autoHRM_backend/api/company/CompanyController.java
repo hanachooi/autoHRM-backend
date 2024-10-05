@@ -20,11 +20,12 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping("/department/my")
-    public ResponseEntity<List<Department>> findMyDepartment() {
+    public ResponseEntity<List<DepartmentResponseDTO>> findMyDepartment() {
 
         String employeeLoginId = getEmployeeLoginId();
+        System.out.println("CompanyController.findMyDepartment");
 
-        List<Department> departments = companyService.findMyDepartments(employeeLoginId);
+        List<DepartmentResponseDTO> departments = companyService.findMyDepartments(employeeLoginId);
 
         return ResponseEntity.ok(departments);
     }

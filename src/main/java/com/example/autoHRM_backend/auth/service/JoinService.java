@@ -43,6 +43,7 @@ public class JoinService {
         data.setEmail(email);
         data.setPassword(bCryptPasswordEncoder.encode(password));
         data.setRole(role);
+        data.setCompanyName(joinDTO.getCompanyName());
         data.setDepartment(department);
 
         employeeRepository.save(data);
@@ -58,11 +59,18 @@ public class JoinService {
                 .build();
         companyRepository.save(company);
 
+        // 회사계정은 부서명 Owner 로 부서 추가
+        Department department = new Department("회사", company);
+        departmentRepository.save(department);
+
+        Long ownerDepartmentId = department.getId();
+
+        // 남은 부서 추가
         for(String departmentName : companyDTO.getDepartments()) {
             departmentRepository.save(new Department(departmentName, company));
         }
 
-        JoinDTO joinDTO = new JoinDTO(companyDTO.getOwner_email(), companyDTO.getOwnerName(), companyDTO.getPassword(), "ROLE_ADMIN", 0L, company.getCompanyName());
+        JoinDTO joinDTO = new JoinDTO(companyDTO.getOwner_email(), companyDTO.getOwnerName(), companyDTO.getPassword(), "ROLE_ADMIN", ownerDepartmentId, company.getCompanyName());
         joinProcess(joinDTO);
     }
 
