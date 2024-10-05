@@ -34,6 +34,7 @@ public class JoinService {
         String email = joinDTO.getEmail();
         String password = joinDTO.getPassword();
         Long departmentId = joinDTO.getDepartmentId();
+        System.out.println("부서" + departmentId);
         String role = joinDTO.getRole();
         Department department = departmentRepository.findById(departmentId).orElse(null);
 

@@ -22,9 +22,6 @@ public class JoinDTO {
 
     private String companyName;
 
-    // 이미지 넣는 컬럼 야매로 추가해놓음
-    private List<String> images;
-
     public JoinDTO(String email, String name, String password, String role, Long departmentId, String companyName) {
         this.email = email;
         this.name = name;
