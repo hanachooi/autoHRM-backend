@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long> {
 
-    @Query("SELECT e.department.company FROM Employee e WHERE e.id = :employeeId")
-    Company findCompanyByEmployeeId(@Param("employeeId") Long employeeId);
+    @Query("SELECT e.department.company FROM Employee e WHERE e.email = :email")
+    Company findCompanyByEmployeeEmail(@Param("email") String email);
+
 }

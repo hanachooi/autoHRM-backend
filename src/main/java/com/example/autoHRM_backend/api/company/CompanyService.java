@@ -1,5 +1,6 @@
 package com.example.autoHRM_backend.api.company;
 
+import com.example.autoHRM_backend.auth.service.AuthUtil;
 import com.example.autoHRM_backend.domain.company.Company;
 import com.example.autoHRM_backend.domain.company.CompanyRepository;
 import com.example.autoHRM_backend.domain.company.Department;
@@ -20,13 +21,12 @@ public class CompanyService {
     private final DepartmentRepository departmentRepository;
     private final CompanyRepository companyRepository;
 
-    public List<DepartmentResponseDTO> findMyDepartments(String loginEmployeeId) {
+
+    public List<DepartmentResponseDTO> findMyDepartments(String employeeLoginId) {
 
         System.out.println("CompanyService.findMyDepartments");
-        System.out.println(loginEmployeeId);
 
-        Employee employee = employeeRepository.findByEmail(loginEmployeeId);
-        Company company = companyRepository.findCompanyByEmployeeId(employee.getId());
+        Company company = companyRepository.findCompanyByEmployeeEmail(employeeLoginId);
 
         System.out.println(company.getCompanyName());
 

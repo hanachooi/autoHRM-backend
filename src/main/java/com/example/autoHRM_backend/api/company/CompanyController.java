@@ -1,8 +1,10 @@
 package com.example.autoHRM_backend.api.company;
 
+import com.example.autoHRM_backend.auth.service.AuthUtil;
 import com.example.autoHRM_backend.auth.service.EmployeeUserDetails;
 import com.example.autoHRM_backend.domain.company.Company;
 import com.example.autoHRM_backend.domain.company.Department;
+import com.google.api.client.googleapis.auth.oauth2.OAuth2Utils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,23 +20,17 @@ import java.util.List;
 public class CompanyController {
 
     private final CompanyService companyService;
+    private final AuthUtil authUtil;
 
     @GetMapping("/department/my")
     public ResponseEntity<List<DepartmentResponseDTO>> findMyDepartment() {
 
-        String employeeLoginId = getEmployeeLoginId();
+        String employeeId = authUtil.getEmployeeLoginId();
         System.out.println("CompanyController.findMyDepartment");
 
-        List<DepartmentResponseDTO> departments = companyService.findMyDepartments(employeeLoginId);
+        List<DepartmentResponseDTO> departments = companyService.findMyDepartments(employeeId);
 
         return ResponseEntity.ok(departments);
-    }
-
-    private String getEmployeeLoginId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EmployeeUserDetails employeeUserDetails = (EmployeeUserDetails)principal;
-
-        return employeeUserDetails.getEmail();
     }
 
 }
