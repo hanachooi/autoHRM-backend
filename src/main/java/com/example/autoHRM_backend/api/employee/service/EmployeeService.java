@@ -23,8 +23,13 @@ public class EmployeeService {
     public List<EmployeesResponseDTO> findMyEmployees(Long departmentId, String employeeId, String employeeLoginId){
 
         Company company = companyRepository.findCompanyByEmployeeEmail(employeeLoginId);
-        return employeeQueryRepository.findAllEmployees(departmentId, employeeId, company);
+        List<Employee> employees = employeeQueryRepository.findAllEmployees(departmentId, employeeId, company);
+        List<EmployeesResponseDTO> dtos = new ArrayList<>();
 
+        for(Employee employee : employees){
+            dtos.add(new EmployeesResponseDTO(employee.getName(), employee.getEmail(), employee.getDepartment().getDepartmentName()));
+        }
+        return dtos;
     }
 
     public EmployeeDetailResponseDTO findEmployeeDetail(String employeeEmail){

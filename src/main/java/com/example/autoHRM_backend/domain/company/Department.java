@@ -18,7 +18,7 @@ public class Department {
     private Long id;
     private String departmentName;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "company_id")
     private Company company;
 

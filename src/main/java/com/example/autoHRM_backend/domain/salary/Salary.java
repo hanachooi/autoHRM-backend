@@ -23,19 +23,26 @@ public class Salary {
 
     private Long salary;
 
+    private Long unpaid;
+
+    private Boolean status;
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @Builder
-    protected Salary(Long year, Long month, Long salary, Employee employee) {
+    protected Salary(Long year, Long month, Long salary, Employee employee, Boolean status, Long unpaid) {
         this.year = year;
         this.month = month;
         this.salary = salary;
         this.employee = employee;
+        this.status = status;
+        this.unpaid = unpaid;
     }
 
     public void setSalary(Long salary) {
         this.salary = salary;
+        this.unpaid = salary;
     }
 }

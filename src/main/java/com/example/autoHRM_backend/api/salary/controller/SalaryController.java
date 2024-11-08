@@ -1,6 +1,8 @@
 package com.example.autoHRM_backend.api.salary.controller;
 
+import com.example.autoHRM_backend.api.employee.dto.EmployeesResponseDTO;
 import com.example.autoHRM_backend.api.salary.dto.BaseSalaryRequestDTO;
+import com.example.autoHRM_backend.api.salary.dto.SalariesResponseDTO;
 import com.example.autoHRM_backend.api.salary.dto.SalaryResponseDTO;
 import com.example.autoHRM_backend.api.salary.service.SalaryService;
 import com.example.autoHRM_backend.auth.service.EmployeeUserDetails;
@@ -8,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -29,6 +33,15 @@ public class SalaryController {
         SalaryResponseDTO dto = salaryService.findMySalary(employeeLoginId);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/salaries/my")
+    public ResponseEntity<List<SalariesResponseDTO>> findMySalaries(@RequestParam(required = false) String email ,
+                                                              @RequestParam(required = false) boolean status){
+        String employeeLoginId = getEmployeeLoginId();
+        List<SalariesResponseDTO> dtos = salaryService.findMySalaries(employeeLoginId, email, status);
+
+        return ResponseEntity.ok(dtos);
     }
 
     private String getEmployeeLoginId() {

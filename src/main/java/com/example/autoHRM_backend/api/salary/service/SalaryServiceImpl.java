@@ -1,8 +1,12 @@
 package com.example.autoHRM_backend.api.salary.service;
 
 import com.example.autoHRM_backend.api.salary.dto.BaseSalaryRequestDTO;
+import com.example.autoHRM_backend.api.salary.dto.SalariesResponseDTO;
 import com.example.autoHRM_backend.api.salary.dto.SalaryResponseDTO;
+import com.example.autoHRM_backend.domain.company.Company;
+import com.example.autoHRM_backend.domain.company.CompanyRepository;
 import com.example.autoHRM_backend.domain.employee.Employee;
+import com.example.autoHRM_backend.domain.employee.EmployeeQueryRepository;
 import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import com.example.autoHRM_backend.domain.salary.BaseSalary;
 import com.example.autoHRM_backend.domain.salary.BaseSalaryRepository;
@@ -11,6 +15,8 @@ import com.example.autoHRM_backend.domain.salary.SalaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class SalaryServiceImpl implements SalaryService {
@@ -18,6 +24,8 @@ public class SalaryServiceImpl implements SalaryService {
     private final EmployeeRepository employeeRepository;
     private final BaseSalaryRepository baseSalaryRepository;
     private final SalaryRepository salaryRepository;
+    private final CompanyRepository companyRepository;
+    private final EmployeeQueryRepository employeeQueryRepository;
 
 
     @Override
@@ -43,12 +51,21 @@ public class SalaryServiceImpl implements SalaryService {
         return new SalaryResponseDTO(baseSalary.getBaseSalary(), salary.getSalary());
     }
 
+    @Override
+    public List<SalariesResponseDTO> findMySalaries(String employeeLoginId, String email, Boolean status) {
+
+        Company company = companyRepository.findCompanyByEmployeeEmail(employeeLoginId);
+        return employeeQueryRepository.findSalaries(company, email, status);
+    }
+
     public Salary createSalary(Employee employee, BaseSalaryRequestDTO baseSalaryRequestDTO){
         return Salary.builder()
                 .employee(employee)
                 .year(baseSalaryRequestDTO.getYear())
                 .month(baseSalaryRequestDTO.getMonth())
                 .salary(baseSalaryRequestDTO.getBaseSalary())
+                .status(false)
+                .unpaid(baseSalaryRequestDTO.getBaseSalary())
                 .build();
     }
 
