@@ -78,11 +78,12 @@ public class EmployeeQueryRepository{
                         WeeklySchedule::getScheduleType // Value: ScheduleType
                 ));
 
-        // 급여 정보 가져오기
-        List<Salary> salaries = queryFactory
+        // 최근 급여 정보 가져오기
+        Salary latestSalary = queryFactory
                 .selectFrom(qSalary)
                 .where(qSalary.employee.email.eq(employeeEmail))
-                .fetch();
+                .orderBy(qSalary.year.desc(), qSalary.month.desc()) // year, month 순으로 내림차순 정렬
+                .fetchFirst(); // 가장 첫 번째 결과만 가져옴
 
         // 기본급 정보 가져오기
         BaseSalary baseSalary = queryFactory
@@ -108,7 +109,7 @@ public class EmployeeQueryRepository{
         // 주간 일정과 급여 정보 설정
         if (employeeDetailResponseDTO != null) {
             employeeDetailResponseDTO.setWeeklySchedule(weekSchedule.isEmpty() ? null : weekSchedule);  // 빈 Map 처리
-            employeeDetailResponseDTO.setSalarys(salaries.isEmpty() ? null : salaries); // 빈 리스트 처리
+            employeeDetailResponseDTO.setSalary(latestSalary == null ? null : latestSalary.getSalary());
             employeeDetailResponseDTO.setBaseSalary(baseSalary == null ? null : baseSalary.getBaseSalary());
             employeeDetailResponseDTO.setYear(baseSalary == null ? null : baseSalary.getYear());
             employeeDetailResponseDTO.setWage(baseSalary == null ? null : baseSalary.getWage());

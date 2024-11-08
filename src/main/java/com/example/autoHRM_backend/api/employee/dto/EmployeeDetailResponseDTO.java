@@ -33,7 +33,7 @@ public class EmployeeDetailResponseDTO {
 
     private Long minuteWage;
 
-    private List<Salary> salarys;
+    private Long salary;
 
     private Map<DayOfWeek, ScheduleType> weeklySchedule;
 

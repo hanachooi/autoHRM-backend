@@ -37,8 +37,8 @@ public class CommuteServiceImpl implements CommuteService {
     public void checkIn(String email){
 
         Employee employee = employeeRepository.findByEmail(email);
-//        LocalDateTime startTime = LocalDateTime.now();
-        LocalDateTime startTime = LocalDateTime.of(2024, 10, 3, 8, 0);
+        LocalDateTime startTime = LocalDateTime.now();
+//        LocalDateTime startTime = LocalDateTime.of(2024, 10, 3, 8, 0);
         ScheduleType type = getType(startTime, employee);
         Commute commute = CommuteFactory.createCommute(type, startTime, employee);
 
@@ -47,8 +47,8 @@ public class CommuteServiceImpl implements CommuteService {
 
     @Override
     public void checkOut(String email) {
-        LocalDate today = LocalDate.of(2024, 10, 3);
-//        LocalDate today = LocalDate.now();
+//        LocalDate today = LocalDate.of(2024, 10, 3);
+        LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<Commute> commutes = commuteRepository.findCommutes(email, today, yesterday);
         if (commutes.isEmpty()) {
