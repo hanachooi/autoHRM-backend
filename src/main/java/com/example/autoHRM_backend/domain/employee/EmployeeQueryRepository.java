@@ -153,6 +153,7 @@ public class EmployeeQueryRepository{
                 .map(employee -> {
                     List<SalaryDTO> salaryDTOs = employee.getSalary().stream()
                             .map(salary -> new SalaryDTO(
+                                    salary.getId(),
                                     salary.getYear(),
                                     salary.getMonth(),
                                     salary.getSalary(),
