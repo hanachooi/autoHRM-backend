@@ -44,6 +44,13 @@ public class SalaryController {
         return ResponseEntity.ok(dtos);
     }
 
+    @PatchMapping("/salary/ok")
+    public ResponseEntity<Void> payOkSalary(@RequestParam Long salaryId, @RequestParam Long paiedAmount){
+        salaryService.payOkSalary(salaryId, paiedAmount);
+
+        return ResponseEntity.ok().build();
+    }
+
     private String getEmployeeLoginId() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         EmployeeUserDetails employeeUserDetails = (EmployeeUserDetails) principal;

@@ -15,4 +15,6 @@ public interface SalaryService {
     SalaryResponseDTO findMySalary(String employeeLoginId);
 
     List<SalariesResponseDTO> findMySalaries(String employeeLoginId, String email, Boolean status);
+
+    void payOkSalary(Long salaryId, Long paiedAmount);
 }

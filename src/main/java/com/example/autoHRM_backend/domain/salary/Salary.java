@@ -45,4 +45,9 @@ public class Salary {
         this.salary = salary;
         this.unpaid = salary;
     }
+
+    public void paidOk(Long amount) {
+        this.unpaid = this.salary - amount;
+        this.status = Boolean.TRUE;
+    }
 }

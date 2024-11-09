@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +57,15 @@ public class SalaryServiceImpl implements SalaryService {
 
         Company company = companyRepository.findCompanyByEmployeeEmail(employeeLoginId);
         return employeeQueryRepository.findSalaries(company, email, status);
+    }
+
+    @Override
+    public void payOkSalary(Long salaryId, Long paiedAmount) {
+        salaryRepository.findById(salaryId).ifPresent(salary -> {
+            salary.paidOk(paiedAmount);
+            salaryRepository.save(salary);
+        });
+
     }
 
     public Salary createSalary(Employee employee, BaseSalaryRequestDTO baseSalaryRequestDTO){
