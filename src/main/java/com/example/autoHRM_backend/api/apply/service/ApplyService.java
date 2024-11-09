@@ -29,7 +29,8 @@ public class ApplyService {
                 request.getEndTime(),
                 "Commute", // type 필드는 'Commute'로
                 employee,
-                request.getContent()
+                request.getContent(),
+                false
         );
 
         // Apply 저장
@@ -48,7 +49,8 @@ public class ApplyService {
                 request.getEndTime(),
                 "FieldWork", // type 필드는 'Commute'로
                 employee,
-                request.getContent()
+                request.getContent(),
+                false
         );
 
         // Apply 저장
@@ -67,7 +69,8 @@ public class ApplyService {
                 request.getEndTime(),
                 "Holiday", // type 필드는 'Commute'로
                 employee,
-                request.getContent()
+                request.getContent(),
+                false
         );
 
         // Apply 저장
