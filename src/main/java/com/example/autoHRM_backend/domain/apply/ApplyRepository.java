@@ -18,7 +18,7 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
     List<Apply> findByEmployeeInAndOptionalTypeAndStatus(
             @Param("employees") List<Employee> employees,
             @Param("type") String type,
-            @Param("status") Boolean status);
+            @Param("status") String status);
 
 
 }

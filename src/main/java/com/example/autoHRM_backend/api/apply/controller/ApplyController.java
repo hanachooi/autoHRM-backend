@@ -54,7 +54,7 @@ public class ApplyController {
     }
 
     @GetMapping("/applies/my")
-    public ResponseEntity<List<AppliesResponseDTO>> findAllApply(@RequestParam(required = false) String type, @RequestParam(required = false) Boolean status) throws Exception{
+    public ResponseEntity<List<AppliesResponseDTO>> findAllApply(@RequestParam(required = false) String type, @RequestParam(required = false) String status) throws Exception{
 
         Company company = authUtil.getMyCompany();
         List<AppliesResponseDTO> dtos = applyService.findAllApply(company, type, status);

@@ -36,7 +36,7 @@ public class ApplyService {
                 "Commute", // type 필드는 'Commute'로
                 employee,
                 request.getContent(),
-                false
+                "미처리"
         );
 
         // Apply 저장
@@ -56,7 +56,7 @@ public class ApplyService {
                 "FieldWork", // type 필드는 'Commute'로
                 employee,
                 request.getContent(),
-                false
+                "미처리"
         );
 
         // Apply 저장
@@ -76,7 +76,7 @@ public class ApplyService {
                 "Holiday", // type 필드는 'Commute'로
                 employee,
                 request.getContent(),
-                false
+                "미처리"
         );
 
         // Apply 저장
@@ -84,7 +84,7 @@ public class ApplyService {
     }
 
 
-    public List<AppliesResponseDTO> findAllApply(Company company, String type, Boolean status) {
+    public List<AppliesResponseDTO> findAllApply(Company company, String type, String status) {
 
         List<Employee> myEmployees = employeeQueryRepository.findAllEmployees(null, null, company);
         List<Apply> applies = applyRepository.findByEmployeeInAndOptionalTypeAndStatus(myEmployees, type, status);

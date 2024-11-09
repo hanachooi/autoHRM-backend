@@ -28,6 +28,6 @@ public class AppliesResponseDTO {
 
     private String content;
 
-    private Boolean status;
+    private String status;
 
 }
