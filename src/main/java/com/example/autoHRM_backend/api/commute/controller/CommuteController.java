@@ -1,9 +1,11 @@
 package com.example.autoHRM_backend.api.commute.controller;
 
-import com.example.autoHRM_backend.api.commute.dto.CommuteRequestDTO;
 import com.example.autoHRM_backend.api.commute.dto.CommuteResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.EmployeesCommuteDTO;
 import com.example.autoHRM_backend.api.commute.service.CommuteService;
+import com.example.autoHRM_backend.auth.service.AuthUtil;
 import com.example.autoHRM_backend.auth.service.EmployeeUserDetails;
+import com.example.autoHRM_backend.domain.company.Company;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +21,7 @@ import java.util.List;
 public class CommuteController {
 
     private final CommuteService commuteService;
+    private final AuthUtil authUtil;
 
     @PostMapping("/commute")
     public ResponseEntity<Void> checkIn(@RequestParam String email) throws Exception{
@@ -56,6 +59,14 @@ public class CommuteController {
 
         List<CommuteResponseDTO> dtos = commuteService.findCommute(employeeLoginId, filterType, startDateTime);
 
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/commutes/my")
+    public ResponseEntity<List<EmployeesCommuteDTO>> findCompanyCommutes(@RequestParam(required = false) String email){
+        Company company = authUtil.getMyCompany();
+
+        List<EmployeesCommuteDTO> dtos = commuteService.findCompanyCommutes(company, email);
         return ResponseEntity.ok(dtos);
     }
 

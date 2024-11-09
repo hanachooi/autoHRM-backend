@@ -22,4 +22,10 @@ public class CommuteResponseDTO {
         this.endTime = commute.getEndTime();
     }
 
+    public CommuteResponseDTO( Long id,LocalDateTime startTime, LocalDateTime endTime) {
+        this.startTime = startTime;
+        this.id = id;
+        this.endTime = endTime;
+    }
+
 }

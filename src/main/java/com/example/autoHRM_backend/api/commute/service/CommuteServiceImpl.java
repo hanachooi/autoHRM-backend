@@ -2,13 +2,14 @@ package com.example.autoHRM_backend.api.commute.service;
 
 import com.example.autoHRM_backend.api.allowance.service.AllowanceService;
 import com.example.autoHRM_backend.api.calendar.util.DateUtil;
-import com.example.autoHRM_backend.api.commute.dto.CommuteRequestDTO;
 import com.example.autoHRM_backend.api.commute.dto.CommuteResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.EmployeesCommuteDTO;
 import com.example.autoHRM_backend.domain.calendar.DayOfWeek;
 import com.example.autoHRM_backend.domain.calendar.ScheduleType;
 import com.example.autoHRM_backend.domain.calendar.WeeklySchedule;
 import com.example.autoHRM_backend.domain.calendar.WeeklyScheduleRepository;
 import com.example.autoHRM_backend.domain.commute.*;
+import com.example.autoHRM_backend.domain.company.Company;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -119,6 +120,12 @@ public class CommuteServiceImpl implements CommuteService {
             return commuteResponseDTOs;
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<EmployeesCommuteDTO> findCompanyCommutes(Company company, String email) {
+
+        return commuteQueryRepository.findCompanyCommutes(company, email);
     }
 
 
