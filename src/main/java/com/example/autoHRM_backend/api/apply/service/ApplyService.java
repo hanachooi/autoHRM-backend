@@ -1,14 +1,19 @@
 package com.example.autoHRM_backend.api.apply.service;
 
+import com.example.autoHRM_backend.api.apply.dto.AppliesResponseDTO;
 import com.example.autoHRM_backend.api.apply.dto.ApplyRequestDTO;
 import com.example.autoHRM_backend.domain.apply.Apply;
 import com.example.autoHRM_backend.domain.apply.ApplyRepository;
+import com.example.autoHRM_backend.domain.company.Company;
 import com.example.autoHRM_backend.domain.employee.Employee;
+import com.example.autoHRM_backend.domain.employee.EmployeeQueryRepository;
 import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +21,7 @@ public class ApplyService {
 
     private final ApplyRepository applyRepository;
     private final EmployeeRepository employeeRepository;
+    private final EmployeeQueryRepository employeeQueryRepository;
 
     public Apply createReviseApply(String employeeLoginId, ApplyRequestDTO request){
 
@@ -78,4 +84,30 @@ public class ApplyService {
     }
 
 
+    public List<AppliesResponseDTO> findAllApply(Company company, String type, Boolean status) {
+
+        List<Employee> myEmployees = employeeQueryRepository.findAllEmployees(null, null, company);
+        List<Apply> applies = applyRepository.findByEmployeeInAndOptionalTypeAndStatus(myEmployees, type, status);
+
+        for(Apply a : applies){
+            System.out.println(a.getEmployee().getEmail());
+        }
+
+
+        // AppliesResponseDTO로 변환하여 반환
+        return applies.stream()
+                .map(apply -> new AppliesResponseDTO(
+                        apply.getId(),
+                        apply.getEmployee().getName(),
+                        apply.getEmployee().getEmail(),
+                        apply.getRectifyDate(),
+                        apply.getApplyDate(),
+                        apply.getStartTime(),
+                        apply.getEndTime(),
+                        apply.getType(),
+                        apply.getContent(),
+                        apply.getStatus()))
+                .collect(Collectors.toList());
+
+    }
 }
