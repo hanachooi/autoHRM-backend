@@ -10,6 +10,7 @@ import com.example.autoHRM_backend.domain.employee.EmployeeQueryRepository;
 import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PatchMapping;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -108,6 +109,14 @@ public class ApplyService {
                         apply.getContent(),
                         apply.getStatus()))
                 .collect(Collectors.toList());
+
+    }
+
+    public void updateApply(Long id, String status) {
+
+        Apply apply = applyRepository.findById(id).get();
+        apply.setStatus(status);
+        applyRepository.save(apply);
 
     }
 }

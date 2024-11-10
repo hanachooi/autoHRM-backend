@@ -25,7 +25,7 @@ public class ApplyController {
 
     @PostMapping("/apply/commute")
     public ResponseEntity<Void> createReviseApply(@RequestBody ApplyRequestDTO request) throws Exception{
-        String employeeLoginId = getEmployeeLoginId();
+        String employeeLoginId = authUtil.getEmployeeLoginId();
         System.out.println(employeeLoginId);
         applyService.createReviseApply(employeeLoginId, request);
 
@@ -35,7 +35,7 @@ public class ApplyController {
 
     @PostMapping("/apply/fieldwork")
     public ResponseEntity<Void> createfieldApply(@RequestBody ApplyRequestDTO request) throws Exception{
-        String employeeLoginId = getEmployeeLoginId();
+        String employeeLoginId = authUtil.getEmployeeLoginId();
         System.out.println(employeeLoginId);
         applyService.createFieldApply(employeeLoginId, request);
 
@@ -45,7 +45,7 @@ public class ApplyController {
 
     @PostMapping("/apply/holiday")
     public ResponseEntity<Void> createholidayApply(@RequestBody ApplyRequestDTO request) throws Exception{
-        String employeeLoginId = getEmployeeLoginId();
+        String employeeLoginId = authUtil.getEmployeeLoginId();
         System.out.println(employeeLoginId);
         applyService.createHolidayApply(employeeLoginId, request);
 
@@ -63,13 +63,13 @@ public class ApplyController {
         return ResponseEntity.ok(dtos);
     }
 
+    //
+    @PatchMapping("/apply/holiday")
+    public ResponseEntity<Void> updateApply(@RequestParam Long id, @RequestParam String type, @RequestParam String status){
 
-
-    private String getEmployeeLoginId() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        EmployeeUserDetails employeeUserDetails = (EmployeeUserDetails)principal;
-
-        return employeeUserDetails.getEmail();
+        // 일단은 type구별 없이 서비스 호출 -> 지원 상태만 변경
+        applyService.updateApply(id, status);
+        return ResponseEntity.ok().build();
     }
 
 }
