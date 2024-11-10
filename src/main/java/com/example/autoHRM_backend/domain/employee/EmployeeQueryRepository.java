@@ -148,7 +148,6 @@ public class EmployeeQueryRepository{
         } else {
             return List.of();
         }
-
         List<SalariesResponseDTO> salariesResponseDTOs = employees.stream()
                 .map(employee -> {
                     List<SalaryDTO> salaryDTOs = employee.getSalary().stream()

@@ -4,11 +4,11 @@ import com.example.autoHRM_backend.auth.service.AuthUtil;
 import com.example.autoHRM_backend.domain.company.Company;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,7 +24,21 @@ public class ComplaintController {
         Company company = authUtil.getMyCompany();
         complaintService.createComplaint(company, complaintRequestDTO);
 
-        return ResponseEntity.ok().build();
+        return ok().build();
+    }
+
+    @GetMapping("/complaint/my")
+    public ResponseEntity<List<ComplaintResponseDTO>> findMyComplaints() {
+        Company company = authUtil.getMyCompany();
+        List<ComplaintResponseDTO> dto = complaintService.findMyComplaints(company);
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/complaint/count/my")
+    public ResponseEntity<Long> findMyComplaintCount() {
+        Company company = authUtil.getMyCompany();
+        return ResponseEntity.ok(complaintService.findMyComplaintCount(company));
     }
 
 }

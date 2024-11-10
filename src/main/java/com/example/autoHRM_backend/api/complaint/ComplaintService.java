@@ -7,6 +7,9 @@ import com.example.autoHRM_backend.domain.complaint.ComplaintRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ComplaintService {
@@ -22,6 +25,24 @@ public class ComplaintService {
 
         company.plusCount();
         companyRepository.save(company);
+
+    }
+
+    public List<ComplaintResponseDTO> findMyComplaints(Company company) {
+
+        List<Complaint> complaints = complaintRepository.findByCompany(company);
+        List<ComplaintResponseDTO> complaintResponseDTOs = new ArrayList<>();
+
+        for(Complaint complaint : complaints) {
+            complaintResponseDTOs.add(new ComplaintResponseDTO(complaint.getId(), complaint.getEmail(), complaint.getDescription(), complaint.getTitle()));
+        }
+
+        return complaintResponseDTOs;
+    }
+
+    public Long findMyComplaintCount(Company company) {
+
+        return company.getComplaintCount();
 
     }
 }

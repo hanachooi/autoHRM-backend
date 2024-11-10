@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
 
+    List<Complaint> findByCompany(Company company);
 
 }
