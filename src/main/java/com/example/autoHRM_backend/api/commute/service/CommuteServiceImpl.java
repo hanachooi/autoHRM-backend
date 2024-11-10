@@ -3,6 +3,7 @@ package com.example.autoHRM_backend.api.commute.service;
 import com.example.autoHRM_backend.api.allowance.service.AllowanceService;
 import com.example.autoHRM_backend.api.calendar.util.DateUtil;
 import com.example.autoHRM_backend.api.commute.dto.CommuteResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.CommuteStatusResponseDTO;
 import com.example.autoHRM_backend.api.commute.dto.EmployeesCommuteDTO;
 import com.example.autoHRM_backend.domain.calendar.DayOfWeek;
 import com.example.autoHRM_backend.domain.calendar.ScheduleType;
@@ -83,11 +84,18 @@ public class CommuteServiceImpl implements CommuteService {
         // 휴무일 연장 수당은 배치로 구현
     }
     @Override
-    public boolean checkInStatus(String email) {
+    public CommuteStatusResponseDTO checkInStatus(String email) {
 
         Commute commute = commuteQueryRepository.checkInStatus(email);
+        Employee employee = employeeRepository.findByEmail(email);
+
         boolean status = commute.isStatus();
-        return status;
+        CommuteStatusResponseDTO commuteStatusResponseDTO = new CommuteStatusResponseDTO();
+        commuteStatusResponseDTO.setStatus(status);
+        commuteStatusResponseDTO.setName(employee.getName());
+        commuteStatusResponseDTO.setEmail(employee.getEmail());
+        commuteStatusResponseDTO.setStartTime(commute.getStartTime());
+        return commuteStatusResponseDTO;
     }
 
     @Override

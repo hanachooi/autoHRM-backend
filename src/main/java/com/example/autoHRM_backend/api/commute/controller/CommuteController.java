@@ -1,6 +1,7 @@
 package com.example.autoHRM_backend.api.commute.controller;
 
 import com.example.autoHRM_backend.api.commute.dto.CommuteResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.CommuteStatusResponseDTO;
 import com.example.autoHRM_backend.api.commute.dto.EmployeesCommuteDTO;
 import com.example.autoHRM_backend.api.commute.service.CommuteService;
 import com.example.autoHRM_backend.auth.service.AuthUtil;
@@ -39,15 +40,14 @@ public class CommuteController {
 
     // 본인의 익일 근무 상태 확인 ( 출 / 퇴 )
     @GetMapping("/commute/status/my")
-    public ResponseEntity<Boolean> checkInStatus() throws Exception{
+    public ResponseEntity<CommuteStatusResponseDTO> checkInStatus() throws Exception{
         System.out.println("CommuteController.checkInStatus");
 
         // 토큰의 정보로 자신의 이메일을 가져오게 됌.
         String employeeLoginId = getEmployeeLoginId();
-        boolean status = commuteService.checkInStatus(employeeLoginId);
-        System.out.println(employeeLoginId);
+        CommuteStatusResponseDTO dto  = commuteService.checkInStatus(employeeLoginId);
 
-        return ResponseEntity.ok(status);
+        return ResponseEntity.ok(dto);
     }
 
     // 출퇴근 조회
