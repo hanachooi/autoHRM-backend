@@ -57,6 +57,7 @@ public class JoinService {
                 .companyPhone(companyDTO.getCompanyPhone())
                 .ownerName(companyDTO.getOwnerName())
                 .registrationNumber(companyDTO.getRegistrationNumber())
+                .complaintCount(0L)
                 .build();
         companyRepository.save(company);
 

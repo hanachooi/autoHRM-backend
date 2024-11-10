@@ -1,5 +1,6 @@
 package com.example.autoHRM_backend.domain.company;
 
+import com.example.autoHRM_backend.domain.complaint.Complaint;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,8 +26,16 @@ public class Company {
     private String companyPhone;
     private String ownerName;
     private String registrationNumber;
+    private Long complaintCount;
 
     @OneToMany(mappedBy = "company")
     private List<Department> departments;
+
+    @OneToMany(mappedBy = "company")
+    private List<Complaint> complaints;
+
+    public void plusCount(){
+        complaintCount++;
+    }
 
 }
