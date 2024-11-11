@@ -2,13 +2,15 @@ package com.example.autoHRM_backend.api.commute.service;
 
 import com.example.autoHRM_backend.api.allowance.service.AllowanceService;
 import com.example.autoHRM_backend.api.calendar.util.DateUtil;
-import com.example.autoHRM_backend.api.commute.dto.CommuteRequestDTO;
 import com.example.autoHRM_backend.api.commute.dto.CommuteResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.CommuteStatusResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.EmployeesCommuteDTO;
 import com.example.autoHRM_backend.domain.calendar.DayOfWeek;
 import com.example.autoHRM_backend.domain.calendar.ScheduleType;
 import com.example.autoHRM_backend.domain.calendar.WeeklySchedule;
 import com.example.autoHRM_backend.domain.calendar.WeeklyScheduleRepository;
 import com.example.autoHRM_backend.domain.commute.*;
+import com.example.autoHRM_backend.domain.company.Company;
 import com.example.autoHRM_backend.domain.employee.Employee;
 import com.example.autoHRM_backend.domain.employee.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +39,8 @@ public class CommuteServiceImpl implements CommuteService {
     public void checkIn(String email){
 
         Employee employee = employeeRepository.findByEmail(email);
-//        LocalDateTime startTime = LocalDateTime.now();
-        LocalDateTime startTime = LocalDateTime.of(2024, 10, 3, 8, 0);
+        LocalDateTime startTime = LocalDateTime.now();
+//        LocalDateTime startTime = LocalDateTime.of(2024, 10, 3, 8, 0);
         ScheduleType type = getType(startTime, employee);
         Commute commute = CommuteFactory.createCommute(type, startTime, employee);
 
@@ -47,8 +49,8 @@ public class CommuteServiceImpl implements CommuteService {
 
     @Override
     public void checkOut(String email) {
-        LocalDate today = LocalDate.of(2024, 10, 3);
-//        LocalDate today = LocalDate.now();
+//        LocalDate today = LocalDate.of(2024, 10, 3);
+        LocalDate today = LocalDate.now();
         LocalDate yesterday = today.minusDays(1);
         List<Commute> commutes = commuteRepository.findCommutes(email, today, yesterday);
         if (commutes.isEmpty()) {
@@ -82,11 +84,18 @@ public class CommuteServiceImpl implements CommuteService {
         // 휴무일 연장 수당은 배치로 구현
     }
     @Override
-    public boolean checkInStatus(String email) {
+    public CommuteStatusResponseDTO checkInStatus(String email) {
 
         Commute commute = commuteQueryRepository.checkInStatus(email);
+        Employee employee = employeeRepository.findByEmail(email);
+
         boolean status = commute.isStatus();
-        return status;
+        CommuteStatusResponseDTO commuteStatusResponseDTO = new CommuteStatusResponseDTO();
+        commuteStatusResponseDTO.setStatus(status);
+        commuteStatusResponseDTO.setName(employee.getName());
+        commuteStatusResponseDTO.setEmail(employee.getEmail());
+        commuteStatusResponseDTO.setStartTime(commute.getStartTime());
+        return commuteStatusResponseDTO;
     }
 
     @Override
@@ -119,6 +128,12 @@ public class CommuteServiceImpl implements CommuteService {
             return commuteResponseDTOs;
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<EmployeesCommuteDTO> findCompanyCommutes(Company company, String email) {
+
+        return commuteQueryRepository.findCompanyCommutes(company, email);
     }
 
 

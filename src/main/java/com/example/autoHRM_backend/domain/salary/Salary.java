@@ -5,10 +5,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Entity
 @NoArgsConstructor
 @Getter
+@Setter
+@Entity
 public class Salary {
 
     @Id
@@ -21,19 +23,31 @@ public class Salary {
 
     private Long salary;
 
+    private Long unpaid;
+
+    private Boolean status;
+
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @Builder
-    protected Salary(Long year, Long month, Long salary, Employee employee) {
+    protected Salary(Long year, Long month, Long salary, Employee employee, Boolean status, Long unpaid) {
         this.year = year;
         this.month = month;
         this.salary = salary;
         this.employee = employee;
+        this.status = status;
+        this.unpaid = unpaid;
     }
 
     public void setSalary(Long salary) {
         this.salary = salary;
+        this.unpaid = salary;
+    }
+
+    public void paidOk(Long amount) {
+        this.unpaid = this.salary - amount;
+        this.status = Boolean.TRUE;
     }
 }

@@ -10,4 +10,6 @@ public interface SalaryRepository extends JpaRepository<Salary, Long> {
 
     Salary findByEmployeeAndYearAndMonth(Employee employee, int year, int month);
 
+    Salary findByEmployee(Employee employee);
+
 }

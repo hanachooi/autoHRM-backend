@@ -1,9 +1,12 @@
 package com.example.autoHRM_backend.api.commute.controller;
 
-import com.example.autoHRM_backend.api.commute.dto.CommuteRequestDTO;
 import com.example.autoHRM_backend.api.commute.dto.CommuteResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.CommuteStatusResponseDTO;
+import com.example.autoHRM_backend.api.commute.dto.EmployeesCommuteDTO;
 import com.example.autoHRM_backend.api.commute.service.CommuteService;
+import com.example.autoHRM_backend.auth.service.AuthUtil;
 import com.example.autoHRM_backend.auth.service.EmployeeUserDetails;
+import com.example.autoHRM_backend.domain.company.Company;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +22,7 @@ import java.util.List;
 public class CommuteController {
 
     private final CommuteService commuteService;
+    private final AuthUtil authUtil;
 
     @PostMapping("/commute")
     public ResponseEntity<Void> checkIn(@RequestParam String email) throws Exception{
@@ -36,15 +40,14 @@ public class CommuteController {
 
     // 본인의 익일 근무 상태 확인 ( 출 / 퇴 )
     @GetMapping("/commute/status/my")
-    public ResponseEntity<Boolean> checkInStatus() throws Exception{
+    public ResponseEntity<CommuteStatusResponseDTO> checkInStatus() throws Exception{
         System.out.println("CommuteController.checkInStatus");
 
         // 토큰의 정보로 자신의 이메일을 가져오게 됌.
         String employeeLoginId = getEmployeeLoginId();
-        boolean status = commuteService.checkInStatus(employeeLoginId);
-        System.out.println(employeeLoginId);
+        CommuteStatusResponseDTO dto  = commuteService.checkInStatus(employeeLoginId);
 
-        return ResponseEntity.ok(status);
+        return ResponseEntity.ok(dto);
     }
 
     // 출퇴근 조회
@@ -56,6 +59,14 @@ public class CommuteController {
 
         List<CommuteResponseDTO> dtos = commuteService.findCommute(employeeLoginId, filterType, startDateTime);
 
+        return ResponseEntity.ok(dtos);
+    }
+
+    @GetMapping("/commutes/my")
+    public ResponseEntity<List<EmployeesCommuteDTO>> findCompanyCommutes(@RequestParam(required = false) String email){
+        Company company = authUtil.getMyCompany();
+
+        List<EmployeesCommuteDTO> dtos = commuteService.findCompanyCommutes(company, email);
         return ResponseEntity.ok(dtos);
     }
 

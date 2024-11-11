@@ -34,11 +34,13 @@ public class Apply {
 
     private String content;
 
+    private String status;
+
     @ManyToOne()
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public Apply(LocalDateTime rectifyDate, LocalDateTime applyDate, LocalDateTime startTime, LocalDateTime endTime, String type, Employee employee, String content) {
+    public Apply(LocalDateTime rectifyDate, LocalDateTime applyDate, LocalDateTime startTime, LocalDateTime endTime, String type, Employee employee, String content, String status) {
         this.rectifyDate = rectifyDate;
         this.applyDate = applyDate;
         this.startTime = startTime;
@@ -46,6 +48,11 @@ public class Apply {
         this.type = type;
         this.employee = employee;
         this.content = content;
+        this.status = status;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
     }
 
 }

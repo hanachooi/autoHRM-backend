@@ -49,6 +49,8 @@ public class EmployeeUserDetails implements UserDetails {
         return employee.getEmail();
     }
 
+    public Long getId(){return employee.getId();}
+
     // 밑에는 계정 블락 여부 설정임
     @Override
     public boolean isAccountNonExpired() {
