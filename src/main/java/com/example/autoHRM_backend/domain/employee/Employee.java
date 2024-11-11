@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,8 @@ public class Employee {
     private String email;
 
     private String password;
+
+    private String pass;
 
     private String role;
 
@@ -46,5 +49,16 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "department_id")
     private Department department;
+
+
+    @Column(columnDefinition = "JSON")
+    private String faceData;  // 얼굴 데이터 추가
+
+    private LocalDateTime lastLogin;  // 마지막 로그인 시간 추가
+
+    private Boolean isActive = true;  // Django의 is_active
+    private Boolean isStaff = false;  // Django의 is_staff
+    private Boolean isSuperuser = false;  // Django의 is_superuser
+
 
 }
