@@ -43,7 +43,7 @@ public class JoinService {
         data.setName(name);
         data.setEmail(email);
         data.setPassword(bCryptPasswordEncoder.encode(password));
-        data.setPass(password);
+        data.setPass1(password);
         data.setRole(role);
         data.setCompanyName(joinDTO.getCompanyName());
         data.setDepartment(department);

@@ -28,7 +28,7 @@ public class Employee {
 
     private String password;
 
-    private String pass;
+    private String pass1;
 
     private String role;
 
